@@ -2,4 +2,7 @@
 api/mvnw.cmd
 api/mvnw
 api/.mvn/
+ui/node_modules/
+ui/.env
+ui/package-lock.json
 .DS_Store
