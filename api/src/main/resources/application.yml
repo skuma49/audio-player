@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: api
+aws:
+  region: test
+  bucket:
+    name: test
+encryption:
+  secretKey: test
+  salt: test
