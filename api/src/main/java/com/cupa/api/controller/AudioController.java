@@ -1,6 +1,7 @@
 package com.cupa.api.controller;
 
 import com.cupa.api.util.EncryptionUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
@@ -21,6 +22,7 @@ import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/audio")
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class AudioController {
 
@@ -37,7 +39,7 @@ public class AudioController {
     private String bucketName;
 
     @GetMapping("/presigned-url")
-    public ResponseEntity< String> getPresignedUrl(@RequestParam String fileId) {
+    public ResponseEntity<String> getPresignedUrl(@RequestParam String fileId) {
         try {
             // Create a GetObjectRequest
             GetObjectRequest getObjectRequest = GetObjectRequest.builder()
@@ -56,19 +58,13 @@ public class AudioController {
             String presignedUrl = presignedRequest.url().toString();
 
             // Encrypt the pre-signed URL
-            /*
             String encryptedUrl = encryptionUtil.encrypt(presignedUrl);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("encryptedUrl", encryptedUrl); // Ensure this is set
-            response.put("salt", encryptionUtil.getSalt()); // Ensure this is set
-
-             */
-            return ResponseEntity.ok(presignedUrl);
+            return ResponseEntity.ok(encryptedUrl);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;//ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error generating pre-signed URL");
+            log.error("Error generating pre-signed URL: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -96,7 +92,7 @@ public class AudioController {
             // Stream the audio file to the client
             return new ResponseEntity<>(new InputStreamResource(s3Object), headers, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error streaming audio file: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

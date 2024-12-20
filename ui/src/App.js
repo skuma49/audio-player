@@ -1,7 +1,7 @@
 import React from "react";
-import AudioPlayer from "./AudioPlayer";
-import StreamedAudioPlayer from "./StreamedAudioPlayer";
-import PresignedUrlFetcher from "./PresignFetcher";
+import AudioPlayer from "./component/AudioPlayer";
+import StreamedAudioPlayer from "./component/StreamedAudioPlayer";
+import PresignedUrlFetcher from "./component/PresignFetcher";
 
 
 const App = () => {
