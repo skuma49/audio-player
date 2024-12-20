@@ -1,4 +1,6 @@
 /.idea/
+api/.idea/
+api/target/
 api/mvnw.cmd
 api/mvnw
 api/.mvn/
